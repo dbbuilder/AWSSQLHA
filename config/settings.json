@@ -1,0 +1,73 @@
+{
+  "Project": {
+    "Name": "sql-fci-aws",
+    "Region": "us-west-2",
+    "VpcId": "vpc-xxxxxxxx",
+    "Subnets": {
+      "AzA": "subnet-aaaaaaa",
+      "AzB": "subnet-bbbbbbb"
+    },
+    "SecurityGroupId": "sg-xxxxxxxx",
+    "KeyPairName": "my-keypair",
+    "IamInstanceProfile": "EC2-SSM-CloudWatch"
+  },
+  "Directory": {
+    "Id": "d-xxxxxxxxxx",
+    "DnsName": "corp.example.com",
+    "NetbiosName": "CORP"
+  },
+  "EC2": {
+    "InstanceType": "m6i.xlarge",
+    "AmiId": "",
+    "Node1Name": "SQLNODE1",
+    "Node2Name": "SQLNODE2",
+    "AdminUser": "Administrator"
+  },
+  "SQL": {
+    "FciName": "SQLFCI01",
+    "InstanceName": "MSSQLSERVER",
+    "ServiceAccount": "CORP\\sqlsvc",
+    "ServicePasswordSecretName": "",
+    "ServicePasswordPlaintext": "",
+    "Collation": "SQL_Latin1_General_CP1_CI_AS",
+    "ProductKey": "",
+    "MediaSource": {
+      "Type": "S3",
+      "S3Uri": "s3://my-bucket/sql/SQLServer2022",
+      "UncPath": "\\\\fsx\\sqlmedia\\SQLServer2022",
+      "LocalIsoPath": "D:\\en_sql_server_2022.iso"
+    }
+  }
+}
+,
+  "FSx": {
+    "DnsAlias": "fsx",
+    "Shares": {
+      "Data": "sqldata",
+      "Backup": "sqlbackup",
+      "Witness": "witness"
+    }
+  },
+  "Paths": {
+    "SqlDataRoot": "\\\\fsx\\sqldata",
+    "SqlBackupRoot": "\\\\fsx\\sqlbackup",
+    "SqlTempDbRoot": "\\\\fsx\\sqldata\\tempdb"
+  },
+  "Cluster": {
+    "Name": "sql-fci-cluster",
+    "FileWitnessPath": "\\\\fsx\\witness",
+    "DnsTtlSeconds": 120,
+    "RegisterAllProvidersIP": 1
+  },
+  "Monitoring": {
+    "CloudWatchNamespace": "SQL-FCI",
+    "CreateSampleAlarms": true,
+    "CloudWatchConfigPath": ".\\monitoring\\cloudwatch-config.json",
+    "AgentDownloadUrl": "https://s3.amazonaws.com/amazoncloudwatch-agent/windows/amd64/latest/amazon-cloudwatch-agent.msi"
+  },
+  "Validation": {
+    "FailoverTest": true,
+    "ReconnectTest": true,
+    "TestDatabase": "FciValidationDb"
+  }
+}

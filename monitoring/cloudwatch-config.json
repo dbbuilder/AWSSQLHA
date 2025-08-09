@@ -1,0 +1,40 @@
+{
+  "metrics": {
+    "append_dimensions": { "InstanceId": "${aws:InstanceId}" },
+    "aggregation_dimensions": [["InstanceId"]],
+    "metrics_collected": {
+      "LogicalDisk": {
+        "measurement": ["% Free Space", "Avg. Disk sec/Read", "Avg. Disk sec/Write"],
+        "resources": ["*"],
+        "interval": 60
+      },
+      "Memory": {
+        "measurement": ["% Committed Bytes In Use"],
+        "metrics_collection": 60
+      },
+      "SQLServer:SQL Statistics": {
+        "measurement": ["Batch Requests/sec", "SQL Compilations/sec", "SQL Re-Compilations/sec"],
+        "resources": ["*"],
+        "interval": 60
+      },
+      "SQLServer:Buffer Manager": {
+        "measurement": ["Page life expectancy", "Buffer cache hit ratio"],
+        "resources": ["*"],
+        "interval": 60
+      }
+    }
+  },
+  "logs": {
+    "logs_collected": {
+      "windows_events": {
+        "collect_list": [
+          { "event_name": "Application", "levels": ["ERROR", "WARNING", "INFORMATION"] },
+          { "event_name": "System", "levels": ["ERROR", "WARNING"] },
+          { "event_name": "Microsoft-Windows-FailoverClustering/Operational", "levels": ["ERROR", "WARNING", "INFORMATION"] }
+        ]
+      }
+    },
+    "log_stream_name": "{instance_id}",
+    "force_flush_interval": 15
+  }
+}
